@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   bio: { type: String, default: "" },
-  pfp: String,
+  pfp: {type:String,default:"uploads\\pfp\\default.jpg"},
   is_staff: { type: Boolean, default: false },
   posts: {
     count: { type: Number, default: 0 },

@@ -16,10 +16,10 @@ module.exports.createPost = async (req, res, next) => {
     pic: req.file.path, 
     pfp: user.pfp,
     date: datetime.toISOString().slice(0, 10),
-    user: req.UserData.userId,
+    user: req.UserData.userId, 
     username: user.username,
   });
-  await post.save();
+  await post.save(); 
   res.json(post); 
 };
  
