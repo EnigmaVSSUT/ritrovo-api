@@ -100,8 +100,8 @@ module.exports.getNotifs = async (req,res,next) =>{
 }
 
 module.exports.updateProfile = async (req,res,next)=>{
-  if(req.file.path!=null){
-    req.body.pfp=req.file.path
+  if(req.file.location!=null){
+    req.body.pfp=req.file.location
   }
 
   const user =await User.findOneAndUpdate({'_id':req.UserData.userId},req.body).exec()

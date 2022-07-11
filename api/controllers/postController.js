@@ -14,7 +14,7 @@ module.exports.createPost = async (req, res, next) => {
   const post = new Post({
     _id: mongoose.Types.ObjectId(),
     caption: req.body.caption,
-    pic: req.file.path, 
+    pic: req.file.location, 
     pfp: user.pfp,
     date: datetime.toISOString().slice(0, 10),
     user: req.UserData.userId, 
