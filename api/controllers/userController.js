@@ -106,7 +106,7 @@ module.exports.updateProfile = async (req,res,next)=>{
 
   const user =await User.findOneAndUpdate({'_id':req.UserData.userId},req.body).exec()
   res.status(200).json({
-    msg:'update successfully',
+    msg:'updated successfully',
     user:user
   })
 } 

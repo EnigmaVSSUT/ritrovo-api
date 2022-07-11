@@ -19,4 +19,6 @@ router.post('/createPost',authCheck,upload.single('pic'),postController.createPo
 
 router.post('/likePost/:postId',authCheck,postController.likePost)
 
+router.delete('/deletePost/:postId',authCheck,postController.deletePost)
+
 module.exports=router  

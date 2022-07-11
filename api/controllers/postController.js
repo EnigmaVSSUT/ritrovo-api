@@ -10,6 +10,7 @@ module.exports.getPosts = async (req, res, next) => {
 module.exports.createPost = async (req, res, next) => {
   const datetime = new Date(); 
   const user = await User.findById(req.UserData.userId);
+  user.posts.count++
   const post = new Post({
     _id: mongoose.Types.ObjectId(),
     caption: req.body.caption,
@@ -17,8 +18,10 @@ module.exports.createPost = async (req, res, next) => {
     pfp: user.pfp,
     date: datetime.toISOString().slice(0, 10),
     user: req.UserData.userId, 
-    username: user.username,
+    username: user.username, 
   });
+  user.posts.post.push(post._id)
+  user.save()
   await post.save(); 
   res.json(post); 
 };
@@ -67,3 +70,29 @@ module.exports.likePost = async (req, res, next) => {
     });
   }
 };
+
+module.exports.deletePost = async(req,res,next)=>{
+  const id= req.params.postId
+  const post = await Post.findById(id).exec()
+
+  if(post.user!=req.UserData.userId){
+    return res.status(400).json({msg:'not authorized'}) 
+  }
+
+  const owner = await User.findById(post.user).exec()
+
+  owner.posts.count--
+  owner.posts.post.remove(id)
+  owner.save()
+
+  post.likes.users.forEach(async (userid)=>{  
+    const user = await User.findById(userid).exec()
+    user.liked_posts.count-- 
+    user.liked_posts.posts.remove(id)
+    await user.save()
+  })
+
+  post.delete()
+
+  res.status(200).json({msg:'deleted successfully'})
+}
