@@ -1,6 +1,7 @@
 const express= require('express')
 const authCheck= require('../middlewares/authCheck')
 const postController = require('../controllers/postController')
+const userController = require('../controllers/userController') 
 const router = express.Router()
 const multer = require("multer");
 const multerS3 = require("multer-s3");
@@ -19,7 +20,7 @@ const upload = multer({
     acl: "public-read",
     bucket: process.env.bucketName,
     key: function (req, file, cb) {
-      cb(null, file.originalname); //use Date.now() for unique file keys
+      cb(null, Date.now().toString()); //use Date.now() for unique file keys
     },
   }),
 });
@@ -27,6 +28,8 @@ const upload = multer({
 router.get('/getPosts',authCheck,postController.getPosts)
 
 router.post('/createPost',authCheck,upload.single('pic'),postController.createPost)
+
+router.post("/updateprofile", authCheck,upload.single('pfp'), userController.updateProfile);
 
 router.post('/likePost/:postId',authCheck,postController.likePost)
 
