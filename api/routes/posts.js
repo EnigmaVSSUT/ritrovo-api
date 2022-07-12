@@ -1,8 +1,8 @@
-const express= require('express')
-const authCheck= require('../middlewares/authCheck')
-const postController = require('../controllers/postController')
-const userController = require('../controllers/userController') 
-const router = express.Router()
+const express = require("express");
+const authCheck = require("../middlewares/authCheck");
+const postController = require("../controllers/postController");
+const userController = require("../controllers/userController");
+const router = express.Router();
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
@@ -25,14 +25,24 @@ const upload = multer({
   }),
 });
 
-router.get('/getPosts',authCheck,postController.getPosts)
+router.get("/getPosts", authCheck, postController.getPosts);
 
-router.post('/createPost',authCheck,upload.single('pic'),postController.createPost)
+router.post(
+  "/createPost",
+  authCheck,
+  upload.single("pic"),
+  postController.createPost
+);
 
-router.post("/updateprofile", authCheck,upload.single('pfp'), userController.updateProfile);
+router.post(
+  "/updateprofile",
+  authCheck,
+  upload.single("pfp"),
+  userController.updateProfile
+);
 
-router.post('/likePost/:postId',authCheck,postController.likePost)
+router.post("/likePost/:postId", authCheck, postController.likePost);
 
-router.delete('/deletePost/:postId',authCheck,postController.deletePost)
+router.delete("/deletePost/:postId", authCheck, postController.deletePost);
 
-module.exports=router 
+module.exports = router;
