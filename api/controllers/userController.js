@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mongoose = require('mongoose')
 
-module.exports.signUp = async (req, res, next) => {
+exports.signUp = async (req, res, next) => {
   const check = await User.findOne({ username: req.body.username });
   if (check != null)
     return res.status(400).json({ msg: "username already exists" });
@@ -12,7 +12,7 @@ module.exports.signUp = async (req, res, next) => {
 
   const user = new User({
     _id: mongoose.Types.ObjectId(),
-    name: req.body.name,
+    email: req.body.email,
     username: req.body.username,
     password: hashed,
   });
@@ -35,7 +35,7 @@ module.exports.signUp = async (req, res, next) => {
   });
 };
 
-module.exports.logIn = async (req, res, next) => {
+exports.logIn = async (req, res, next) => {
   const user = await User.findOne({ username: req.body.username });
 
   if (user==null) { 
@@ -63,7 +63,7 @@ module.exports.logIn = async (req, res, next) => {
   });
 };
 
-module.exports.followUser = async(req,res,next) => {
+exports.followUser = async(req,res,next) => {
   const id=req.params.id;
 
   const receiver =await User.findById(id).exec()
@@ -91,7 +91,7 @@ module.exports.followUser = async(req,res,next) => {
 
 }
 
-module.exports.getNotifs = async (req,res,next) =>{
+exports.getNotifs = async (req,res,next) =>{
   const user= await User.findById(req.UserData.userId).exec()
 
   const notifs= user.notifications
@@ -99,7 +99,7 @@ module.exports.getNotifs = async (req,res,next) =>{
   res.status(200).json(notifs)
 }
 
-module.exports.updateProfile = async (req,res,next)=>{
+exports.updateProfile = async (req,res,next)=>{
   if(req.file.location!=null){
     req.body.pfp=req.file.location
   }
