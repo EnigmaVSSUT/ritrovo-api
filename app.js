@@ -1,17 +1,18 @@
+require('dotenv').config('./.env');
 const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+
 mongoose.connect(
-  "mongodb+srv://dhairya:" +
-    process.env.MongoPW +
-    "@cluster0.vpuxf.mongodb.net/?retryWrites=true&w=majority"
+  process.env.MONGODB_URI
 );
 
 const users = require("./api/routes/users");
 const posts = require("./api/routes/posts");
+const clubs = require('./api/routes/clubs');
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 
 app.use("/users", users);
 app.use("/posts", posts);
+app.use("/admin",clubs);
 
 app.use((req, res, next) => {
   res.json({

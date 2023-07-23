@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const Post = require("../models/post");
 const User = require("../models/user");
 
-module.exports.getPosts = async (req, res, next) => {
+exports.getPosts = async (req, res, next) => {
   const result = await Post.find().select('caption pic username date likes').exec();
   res.status(200).json(result);
 };
 
-module.exports.createPost = async (req, res, next) => {
+exports.createPost = async (req, res, next) => {
   const datetime = new Date(); 
   const user = await User.findById(req.UserData.userId);
   user.posts.count++
@@ -26,7 +26,7 @@ module.exports.createPost = async (req, res, next) => {
   res.json(post); 
 };
  
-module.exports.likePost = async (req, res, next) => {
+exports.likePost = async (req, res, next) => {
   const id = req.params.postId;
   const post = await Post.findById(id).exec();
   const user = await User.findById(req.UserData.userId).exec();
@@ -71,7 +71,7 @@ module.exports.likePost = async (req, res, next) => {
   }
 };
 
-module.exports.deletePost = async(req,res,next)=>{
+exports.deletePost = async(req,res,next)=>{
   const id= req.params.postId
   const post = await Post.findById(id).exec()
 

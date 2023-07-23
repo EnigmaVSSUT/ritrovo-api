@@ -1,3 +1,5 @@
 nodemon.json
 uploads/
 node_modules/
+.env
+package-lock.json
